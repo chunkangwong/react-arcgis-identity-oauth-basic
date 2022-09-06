@@ -7,7 +7,13 @@ interface GalleryProps {
 
 export default function Gallery({ items }: GalleryProps) {
   return (
-    <div id="itemGallery">
+    <div
+      id="itemGallery"
+      className="esri-item-gallery"
+      style={{
+        width: "100%",
+      }}
+    >
       {items.map((item) => (
         <div className="esri-item-container" key={item.id}>
           {item.thumbnailUrl ? (

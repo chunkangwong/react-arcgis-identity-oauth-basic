@@ -1,4 +1,3 @@
-import esriId from "@arcgis/core/identity/IdentityManager";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { signInPortal, signOutPortal } from "./features/portal/portalSlice";
@@ -34,14 +33,7 @@ function App() {
           <div style={{ padding: "5px", textAlign: "center" }}>
             Welcome <span style={{ fontWeight: "bold" }}>{username}</span>{" "}
             &nbsp;-&nbsp;
-            <span
-              style={{
-                color: "blue",
-                cursor: "pointer",
-                textDecoration: "underline",
-              }}
-              onClick={handleSignOut}
-            >
+            <span className="action" onClick={handleSignOut}>
               Sign Out
             </span>
           </div>
@@ -49,15 +41,7 @@ function App() {
         </>
       ) : (
         <div style={{ padding: "5px", textAlign: "center" }}>
-          <span
-            id="sign-in"
-            style={{
-              color: "blue",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
-            onClick={handleSignIn}
-          >
+          <span id="sign-in" className="action" onClick={handleSignIn}>
             Sign In
           </span>{" "}
           and view your ArcGIS Online items.
