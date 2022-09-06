@@ -4,8 +4,15 @@ import Portal from "@arcgis/core/portal/Portal";
 import PortalItem from "@arcgis/core/portal/PortalItem";
 import PortalQueryParams from "@arcgis/core/portal/PortalQueryParams";
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import Gallery from "./Gallery";
+import { AppDispatch, RootState } from "./store/store";
+import {
+  setIsSignedIn,
+  setUsername,
+  setItems,
+} from "./features/portal/portalSlice";
 
 const info = new OAuthInfo({
   appId: "3AbgO0Bn7DVIMpYA",
@@ -15,19 +22,20 @@ const info = new OAuthInfo({
 esriId.registerOAuthInfos([info]);
 
 function App() {
-  const [isSignedIn, setIsSignedIn] = React.useState(false);
-  const [items, setItems] = React.useState<PortalItem[]>([]);
-  const [username, setUsername] = React.useState("");
+  const dispatch = useDispatch<AppDispatch>();
+  const { items, isSignedIn, username } = useSelector(
+    (state: RootState) => state.portal
+  );
 
   React.useEffect(() => {
     esriId
       .checkSignInStatus(info.portalUrl + "/sharing")
       .then(async () => {
         await displayItems();
-        setIsSignedIn(true);
+        dispatch(setIsSignedIn(true));
       })
       .catch(() => {
-        setIsSignedIn(false);
+        dispatch(setIsSignedIn(false));
       });
   }, []);
 
@@ -43,8 +51,8 @@ function App() {
     });
 
     const res = await portal.queryItems(queryParams);
-    setItems(res.results);
-    setUsername(portal.user.username);
+    dispatch(setItems(res.results));
+    dispatch(setUsername(portal.user.username));
   }
 
   const handleSignIn = async () => {
@@ -52,7 +60,6 @@ function App() {
   };
 
   const handleSignOut = () => {
-    setIsSignedIn(false);
     esriId.destroyCredentials();
     window.location.reload();
   };
