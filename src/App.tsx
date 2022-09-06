@@ -5,7 +5,7 @@ import Gallery from "./Gallery";
 import { RootState } from "./store/store";
 
 function App() {
-  const { items, isSignedIn, username, info, status } = useSelector(
+  const { items, isSignedIn, username, info, status, error } = useSelector(
     (state: RootState) => state.portal
   );
 
@@ -20,6 +20,10 @@ function App() {
 
   if (status === "loading") {
     return <div>Loading...</div>;
+  }
+
+  if (error !== "") {
+    return <div>{error}</div>;
   }
 
   return (
