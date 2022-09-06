@@ -73,6 +73,10 @@ const portalSlice = createSlice({
     setItems: (state, action: PayloadAction<PortalItem[]>) => {
       state.items = action.payload;
     },
+    signOutPortal: () => {
+      esriId.destroyCredentials();
+      window.location.reload();
+    },
   },
   extraReducers(builder) {
     builder
@@ -119,6 +123,7 @@ const portalSlice = createSlice({
   },
 });
 
-export const { setIsSignedIn, setUsername, setItems } = portalSlice.actions;
+export const { setIsSignedIn, setUsername, setItems, signOutPortal } =
+  portalSlice.actions;
 
 export default portalSlice.reducer;

@@ -1,7 +1,7 @@
 import esriId from "@arcgis/core/identity/IdentityManager";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import { signInPortal } from "./features/portal/portalSlice";
+import { signInPortal, signOutPortal } from "./features/portal/portalSlice";
 import Gallery from "./Gallery";
 import { AppDispatch, RootState } from "./store/store";
 
@@ -16,8 +16,7 @@ function App() {
   };
 
   const handleSignOut = () => {
-    esriId.destroyCredentials();
-    window.location.reload();
+    dispatch(signOutPortal());
   };
 
   if (status === "loading") {
