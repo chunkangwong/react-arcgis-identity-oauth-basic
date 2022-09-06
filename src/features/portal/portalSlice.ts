@@ -1,9 +1,9 @@
-import PortalItem from "@arcgis/core/portal/PortalItem";
 import esriId from "@arcgis/core/identity/IdentityManager";
 import OAuthInfo from "@arcgis/core/identity/OAuthInfo";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Portal from "@arcgis/core/portal/Portal";
+import PortalItem from "@arcgis/core/portal/PortalItem";
 import PortalQueryParams from "@arcgis/core/portal/PortalQueryParams";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const info = new OAuthInfo({
   appId: "3AbgO0Bn7DVIMpYA",
