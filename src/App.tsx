@@ -1,16 +1,18 @@
 import esriId from "@arcgis/core/identity/IdentityManager";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
+import { signInPortal } from "./features/portal/portalSlice";
 import Gallery from "./Gallery";
-import { RootState } from "./store/store";
+import { AppDispatch, RootState } from "./store/store";
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
   const { items, isSignedIn, username, info, status, error } = useSelector(
     (state: RootState) => state.portal
   );
 
   const handleSignIn = async () => {
-    await esriId.getCredential(info.portalUrl + "/sharing");
+    dispatch(signInPortal(info));
   };
 
   const handleSignOut = () => {
