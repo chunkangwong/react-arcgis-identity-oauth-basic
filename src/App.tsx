@@ -8,7 +8,7 @@ import { AppDispatch, RootState } from "./store/store";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
-  const { items, isSignedIn, username, info } = useSelector(
+  const { items, isSignedIn, username, info, status } = useSelector(
     (state: RootState) => state.portal
   );
 
@@ -33,6 +33,10 @@ function App() {
     esriId.destroyCredentials();
     window.location.reload();
   };
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="App">
