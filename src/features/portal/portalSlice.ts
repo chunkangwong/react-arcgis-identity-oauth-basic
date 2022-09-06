@@ -30,9 +30,10 @@ const initialState: PortalState = {
   error: "",
 };
 
-export const fetchPortalItems = createAsyncThunk(
-  "posts/fetchPortalItems",
+export const fetchSignInStatus = createAsyncThunk(
+  "posts/fetchSignInStatus",
   async () => {
+    await esriId.checkSignInStatus(info.portalUrl + "/sharing");
     const portal = new Portal();
     portal.authMode = "immediate";
     await portal.load();
@@ -47,6 +48,7 @@ export const fetchPortalItems = createAsyncThunk(
     return {
       items: res.results,
       username: portal.user.username,
+      isSignedIn: true,
     };
   }
 );
@@ -67,17 +69,27 @@ const portalSlice = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchPortalItems.pending, (state, action) => {
-        state.status = "loading";
+      .addCase(fetchSignInStatus.pending, (state, action) => {
+        return {
+          ...state,
+          status: "loading",
+        };
       })
-      .addCase(fetchPortalItems.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.items = action.payload.items;
-        state.username = action.payload.username;
+      .addCase(fetchSignInStatus.fulfilled, (state, action) => {
+        return {
+          ...state,
+          status: "succeeded",
+          ...action.payload,
+        };
       })
-      .addCase(fetchPortalItems.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message || "";
+      .addCase(fetchSignInStatus.rejected, (state, action) => {
+        return {
+          ...state,
+          status: "failed",
+          items: [],
+          username: "",
+          isSignedIn: false,
+        };
       });
   },
 });
