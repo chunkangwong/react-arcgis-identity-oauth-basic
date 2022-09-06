@@ -1,14 +1,8 @@
 import esriId from "@arcgis/core/identity/IdentityManager";
-import Portal from "@arcgis/core/portal/Portal";
-import PortalQueryParams from "@arcgis/core/portal/PortalQueryParams";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import {
-  setIsSignedIn,
-  setItems,
-  setUsername,
-} from "./features/portal/portalSlice";
+import { fetchPortalItems, setIsSignedIn } from "./features/portal/portalSlice";
 import Gallery from "./Gallery";
 import { AppDispatch, RootState } from "./store/store";
 
@@ -23,29 +17,13 @@ function App() {
     esriId
       .checkSignInStatus(info.portalUrl + "/sharing")
       .then(async () => {
-        await displayItems();
+        await dispatch(fetchPortalItems()).unwrap();
         dispatch(setIsSignedIn(true));
       })
       .catch(() => {
         dispatch(setIsSignedIn(false));
       });
   }, []);
-
-  async function displayItems() {
-    const portal = new Portal();
-    portal.authMode = "immediate";
-    await portal.load();
-    const queryParams = new PortalQueryParams({
-      query: "owner:" + portal.user.username,
-      sortField: "num-views",
-      sortOrder: "desc",
-      num: 20,
-    });
-
-    const res = await portal.queryItems(queryParams);
-    dispatch(setItems(res.results));
-    dispatch(setUsername(portal.user.username));
-  }
 
   const handleSignIn = async () => {
     await esriId.getCredential(info.portalUrl + "/sharing");
