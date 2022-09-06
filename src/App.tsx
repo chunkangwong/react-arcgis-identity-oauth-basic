@@ -19,11 +19,13 @@ function App() {
   };
 
   if (status === "loading") {
-    return <div>Loading...</div>;
+    return (
+      <div style={{ padding: "5px", textAlign: "center" }}>Loading...</div>
+    );
   }
 
   if (error !== "") {
-    return <div>{error}</div>;
+    return <div style={{ padding: "5px", textAlign: "center" }}>{error}</div>;
   }
 
   return (
