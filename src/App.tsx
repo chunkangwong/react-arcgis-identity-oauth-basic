@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
-import { signInPortal, signOutPortal } from "./features/portal/portalSlice";
+import {
+  fetchSignInStatus,
+  signInPortal,
+  signOutPortal,
+} from "./features/portal/portalSlice";
 import Gallery from "./Gallery";
 import { AppDispatch, RootState } from "./store/store";
 
@@ -10,9 +15,13 @@ function App() {
     (state: RootState) => state.portal
   );
 
-  const handleSignIn = async () => {
+  useEffect(() => {
+    dispatch(fetchSignInStatus());
+  }, []);
+
+  useEffect(() => {
     dispatch(signInPortal());
-  };
+  }, [isSignedIn]);
 
   const handleSignOut = () => {
     dispatch(signOutPortal());
@@ -30,7 +39,7 @@ function App() {
 
   return (
     <div className="App">
-      {isSignedIn ? (
+      {isSignedIn && (
         <>
           <div style={{ padding: "5px", textAlign: "center" }}>
             Welcome <span style={{ fontWeight: "bold" }}>{username}</span>{" "}
@@ -41,13 +50,6 @@ function App() {
           </div>
           <Gallery items={items} />
         </>
-      ) : (
-        <div style={{ padding: "5px", textAlign: "center" }}>
-          <span id="sign-in" className="action" onClick={handleSignIn}>
-            Sign In
-          </span>{" "}
-          and view your ArcGIS Online items.
-        </div>
       )}
     </div>
   );
