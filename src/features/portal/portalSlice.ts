@@ -53,12 +53,9 @@ export const fetchSignInStatus = createAsyncThunk(
   }
 );
 
-export const signInPortal = createAsyncThunk(
-  "posts/signInPortal",
-  async (info: OAuthInfo) => {
-    await esriId.getCredential(info.portalUrl + "/sharing");
-  }
-);
+export const signInPortal = createAsyncThunk("posts/signInPortal", async () => {
+  await esriId.getCredential(info.portalUrl + "/sharing");
+});
 
 const portalSlice = createSlice({
   name: "portal",

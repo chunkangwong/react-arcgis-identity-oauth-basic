@@ -11,7 +11,7 @@ function App() {
   );
 
   const handleSignIn = async () => {
-    dispatch(signInPortal(info));
+    dispatch(signInPortal());
   };
 
   const handleSignOut = () => {
