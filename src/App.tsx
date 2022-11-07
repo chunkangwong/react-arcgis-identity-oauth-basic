@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "./store/store";
 
 function App() {
   const dispatch = useDispatch<AppDispatch>();
-  const { items, isSignedIn, username, info, status, error } = useSelector(
+  const { items, isSignedIn, username, status, error } = useSelector(
     (state: RootState) => state.portal
   );
 

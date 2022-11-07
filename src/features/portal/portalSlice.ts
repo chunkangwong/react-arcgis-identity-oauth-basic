@@ -16,7 +16,6 @@ interface PortalState {
   isSignedIn: boolean;
   username: string;
   items: PortalItem[];
-  info: OAuthInfo;
   status: string;
   error: string;
 }
@@ -25,7 +24,6 @@ const initialState: PortalState = {
   isSignedIn: false,
   username: "",
   items: [],
-  info: info,
   status: "idle",
   error: "",
 };
